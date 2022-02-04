@@ -6,6 +6,59 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="noindex" />
     <title>Document</title>
+    <style></style>
   </head>
-  <body></body>
+  <section></section>
+  <template>
+    <article>
+      <img src="" alt="" />
+      <h2 class="navn"></h2>
+      <p class="efternavn"></p>
+      <p class="email"></p>
+    </article>
+  </template>
+
+  <body>
+    <script>
+      document.addEventListener("DOMContentLoaded", start);
+
+      const container = document.querySelector("section");
+      const template = document.querySelector("template");
+
+      const url = "https://tema7-8f24.restdb.io/rest/medlemmer";
+      const key = "61fcf7f43f215f310a37be73";
+      let data = [];
+
+      const options = {
+        headers: {
+          "x-apikey": key,
+        },
+      };
+
+      function start() {
+        console.log("Dom er loaded");
+      }
+
+         async function hentdata(fil) {
+        const resultat = await fetch(fil);
+        const json = await resultat.json();
+        vis(json);
+      }
+
+      function vis(medlemmer) {
+        medlemmer.forEach((medlem) => {
+          console.log(medlem);
+          let klon = template.cloneNode(true).content;
+        //   klon.querySelector("img").src = medlem.billede;
+          klon.querySelector("#navn").textContent = medlem.navn;
+          klon.querySelector("#efternavn").textContent ="Efternavn".textContent + medlem.type;
+          klon.querySelector("#email").textContent =
+            "Email".+
+            medlem.email;
+          container.appendChild(klon);
+        });
+      }
+      hentdata(fil);
+    </script>
+  </body>
 </html>
