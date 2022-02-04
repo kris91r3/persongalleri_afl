@@ -6,13 +6,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="noindex" />
     <title>Document</title>
-    <style></style>
+    <style>
+      section {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+        grid-row: 1fr;
+        gap: 5px;
+      }
+    </style>
   </head>
   <section></section>
   <template>
     <article>
       <img src="" alt="" />
-      <h2 class="navn"></h2>
+      <h2></h2>
       <p class="efternavn"></p>
       <p class="email"></p>
     </article>
@@ -39,8 +46,8 @@
         console.log("Dom er loaded");
       }
 
-         async function hentdata(fil) {
-        const resultat = await fetch(fil);
+      async function hentdata() {
+        const resultat = await fetch(url, options);
         const json = await resultat.json();
         vis(json);
       }
@@ -49,16 +56,15 @@
         medlemmer.forEach((medlem) => {
           console.log(medlem);
           let klon = template.cloneNode(true).content;
-        //   klon.querySelector("img").src = medlem.billede;
-          klon.querySelector("#navn").textContent = medlem.navn;
-          klon.querySelector("#efternavn").textContent ="Efternavn".textContent + medlem.type;
-          klon.querySelector("#email").textContent =
-            "Email".+
-            medlem.email;
+          klon.querySelector("img").src = "jpg/" + medlem.profilbillede;
+          klon.querySelector("h2").textContent = medlem.fornavn;
+          klon.querySelector(".efternavn").textContent =
+            "Efternavn" + medlem.efternavn;
+          klon.querySelector(".email").textContent = "Email: " + medlem.email;
           container.appendChild(klon);
         });
       }
-      hentdata(fil);
+      hentdata();
     </script>
   </body>
 </html>
